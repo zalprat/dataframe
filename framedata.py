@@ -8,6 +8,7 @@ df = pd.read_csv(file_path)
 print("Data yang dibaca:")
 print(df.head())
 
+# Hitung total produksi sampah untuk tahun tertentu
 tahun_tertentu = 2015
 total_produksi = 0
 
@@ -17,6 +18,7 @@ for index, row in df.iterrows():
 
 print(f"\nTotal produksi sampah untuk tahun {tahun_tertentu}: {total_produksi} ton")
 
+# Hitung total produksi sampah per tahun
 total_per_tahun = {}
 for index, row in df.iterrows():
     tahun = row["tahun"]
@@ -29,6 +31,7 @@ print("\nTotal produksi sampah per tahun:")
 for tahun, total in total_per_tahun.items():
     print(f"Tahun {tahun}: {total} ton")
 
+# Hitung total produksi sampah per Kota/Kabupaten per tahun
 total_per_kota_per_tahun = {}
 for index, row in df.iterrows():
     tahun = row["tahun"]
@@ -45,10 +48,14 @@ for index, row in df.iterrows():
 print("\nTotal produksi sampah per Kota/Kabupaten per tahun:")
 for (tahun, kota), total in total_per_kota_per_tahun.items():
     print(f"Tahun {tahun}, {kota}: {total} ton")
-    
-# Ekspor ke CSV
-df.to_csv("produksi_sampah.csv", index=False)
 
-# Ekspor ke Excel
-df.to_excel("produksi_sampah.xlsx", index=False)
+df_total_per_tahun = pd.DataFrame(list(total_per_tahun.items()), columns=["tahun", "jumlah_produksi_sampah"])
+df_total_per_tahun.to_csv("total_per_tahun.csv", index=False)
+df_total_per_tahun.to_excel("total_per_tahun.xlsx", index=False)
 
+df_total_per_kota_per_tahun = pd.DataFrame(
+    [(key[0], key[1], total) for key, total in total_per_kota_per_tahun.items()],
+    columns=["Tahun", "Kota/Kabupaten", "Total Produksi Sampah"]
+)
+df_total_per_kota_per_tahun.to_csv("total_per_kota_per_tahun.csv", index=False)
+df_total_per_kota_per_tahun.to_excel("total_per_kota_per_tahun.xlsx", index=False)
