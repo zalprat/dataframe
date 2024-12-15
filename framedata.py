@@ -45,3 +45,10 @@ for index, row in df.iterrows():
 print("\nTotal produksi sampah per Kota/Kabupaten per tahun:")
 for (tahun, kota), total in total_per_kota_per_tahun.items():
     print(f"Tahun {tahun}, {kota}: {total} ton")
+    
+# Ekspor ke CSV
+df.to_csv("produksi_sampah.csv", index=False)
+
+# Ekspor ke Excel
+df.to_excel("produksi_sampah.xlsx", index=False)
+
